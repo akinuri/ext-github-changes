@@ -1,0 +1,10 @@
+﻿Makes the viewing file changes a little easier.
+
+Roadmap:
+
+•  Support for the commit page
+
+
+Credits:
+
+•  "compare" icon from https://www.iconsdb.com/black-icons/compare-icon.html (by icons8)

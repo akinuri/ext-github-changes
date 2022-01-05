@@ -1,0 +1,27 @@
+{
+    "manifest_version": 2,
+    
+    "name": "GitHub Changes",
+    "description": "Makes the viewing file changes a little easier.",
+    "version": "0.2",
+  
+    "browser_action": {
+        "default_title": "Makes the viewing file changes a little easier",
+        "default_popup": "popup.html",
+        "default_icon": {
+             "16": "images/compare-16.png",
+             "32": "images/compare-32.png",
+             "48": "images/compare-48.png",
+            "128": "images/compare-128.png"
+        }
+    },
+    
+    "icons": {
+         "16": "images/compare-16.png",
+         "32": "images/compare-32.png",
+         "48": "images/compare-48.png",
+        "128": "images/compare-128.png"
+    },
+    
+    "permissions": ["activeTab"]
+}
