@@ -21,6 +21,13 @@ body {
 #container {
     font-size: 0.8em;
 }
+.alert {
+    margin-bottom: 0.5em;
+    background-color: lightgoldenrodyellow;
+    padding: 0.4em 0.5em 0.2em;
+    border-radius: 0.2em;
+    border: 1px solid hsla(0, 0%, 0%, 0.2);
+}
 #buttons {
     display: flex;
     flex-direction: column;
@@ -38,10 +45,14 @@ body {
     pointer-events: none;
     user-select: none;
 }
-.alert {
-    margin-bottom: 0.5em;
-    background-color: lightgoldenrodyellow;
-    padding: 0.4em 0.5em 0.2em;
-    border-radius: 0.2em;
-    border: 1px solid hsla(0, 0%, 0%, 0.2);
+#buttons button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    user-select: none;
+    cursor: not-allowed;
+}
+#buttons hr {
+    border: none;
+    border-bottom: 1px solid hsla(0, 0%, 0%, 0.2);
 }

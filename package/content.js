@@ -1,23 +1,3 @@
-function unmarkFiles() {
-    document.querySelectorAll(
-        "#files input[type=checkbox].js-reviewed-checkbox"
-    ).forEach(cb => {
-        if (cb.checked) {
-            cb.click();
-        }
-    });
-}
-
-function markFiles() {
-    document.querySelectorAll(
-        "#files input[type=checkbox].js-reviewed-checkbox"
-    ).forEach(cb => {
-        if (!cb.checked) {
-            cb.click();
-        }
-    });
-}
-
 function foldFiles() {
     document.querySelectorAll(
         "#files .file-info > button"
@@ -54,6 +34,26 @@ function sortFiles() {
     files.forEach(file => fileLists[0].append(file));
 }
 
+function markFiles() {
+    document.querySelectorAll(
+        "#files input[type=checkbox].js-reviewed-checkbox"
+    ).forEach(cb => {
+        if (!cb.checked) {
+            cb.click();
+        }
+    });
+}
+
+function unmarkFiles() {
+    document.querySelectorAll(
+        "#files input[type=checkbox].js-reviewed-checkbox"
+    ).forEach(cb => {
+        if (cb.checked) {
+            cb.click();
+        }
+    });
+}
+
 // console.log("GitHub Diff extension script is executed.");
 
 chrome.runtime.onMessage.addListener(
@@ -63,10 +63,10 @@ chrome.runtime.onMessage.addListener(
             return;
         }
         switch (request) {
-            case "unmark" : unmarkFiles(); break;
-            case "mark"   : markFiles();   break;
             case "fold"   : foldFiles();   break;
             case "sort"   : sortFiles();   break;
+            case "mark"   : markFiles();   break;
+            case "unmark" : unmarkFiles(); break;
         }
     }
 );
