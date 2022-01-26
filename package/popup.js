@@ -3,7 +3,6 @@ let isError   = false;
 let activeTab = null;
 let isPull    = false;
 let isCommit  = false;
-let pageType  = null;
 
 let buttons = {
     fold   : null,
