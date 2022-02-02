@@ -3,7 +3,7 @@
     
     "name": "GitHub Changes",
     "description": "Makes the viewing file changes a little easier.",
-    "version": "0.3",
+    "version": "0.4",
   
     "browser_action": {
         "default_title": "Makes the viewing file changes a little easier",
