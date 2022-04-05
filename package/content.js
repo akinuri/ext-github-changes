@@ -41,6 +41,9 @@ function sortFiles() {
     normalizeFilesLists();
     let fileList = document.querySelector(".js-diff-progressive-container");
     let files = Array.from(fileList.children);
+    // files.forEach(file => {
+        // console.log(file, file.innerText, getFileChangeCount(file));
+    // });
     files.sort((a, b) => {
         return getFileChangeCount(a) - getFileChangeCount(b);
     });
@@ -69,7 +72,7 @@ function unmarkFiles() {
 
 // console.log("GitHub Diff extension script is executed.");
 
-chrome.runtime.onMessage.addListener(
+chrome.runtime.onMessage?.addListener(
     function (request, sender, sendResponse) {
         let allowedMessages = ["unmark", "mark", "fold", "sort"];
         if (!allowedMessages.includes(request)) {
