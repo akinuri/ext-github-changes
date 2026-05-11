@@ -29,9 +29,9 @@ function sendMessage(message) {
 // https://github.com/XXX/XXX/commit/XXX
 
 let patterns = {
-    pull        : /^https:\/\/(?:www)?github.com\/[\w-]+\/[\w-]+\/pull\/\d+\/files/,
-    pullCommit  : /^https:\/\/(?:www)?github.com\/[\w-]+\/[\w-]+\/pull\/\d+\/commits\/\w+/,
-    commit      : /^https:\/\/(?:www)?github.com\/[\w-]+\/[\w-]+\/commit\/\w+/,
+    pullChanges : /^https:\/\/(?:www\.)?github.com\/[\w-]+\/[\w-]+\/pull\/\d+\/changes(?:\/)?/,
+    pullCommit  : /^https:\/\/(?:www\.)?github.com\/[\w-]+\/[\w-]+\/pull\/\d+\/changes\/\w+/,
+    commit      : /^https:\/\/(?:www\.)?github.com\/[\w-]+\/[\w-]+\/commit\/\w+/,
 };
 
 window.addEventListener("load", function () {
@@ -49,7 +49,7 @@ window.addEventListener("load", function () {
             return;
         }
         
-        isPull = patterns.pull.test(activeTab.url);
+        isPull = patterns.pullChanges.test(activeTab.url);
         if (!isPull) {
             isCommit = patterns.pullCommit.test(activeTab.url) || patterns.commit.test(activeTab.url);
         }
