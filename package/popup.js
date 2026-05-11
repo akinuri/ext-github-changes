@@ -40,9 +40,10 @@ window.addEventListener("load", function () {
     
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         activeTab = tabs[0];
+        someCode(activeTab);
     });
     
-    setTimeout(() => {
+    function someCode(activeTab) {
         
         if (!activeTab) {
             return;
@@ -91,6 +92,6 @@ window.addEventListener("load", function () {
             });
         }
         
-    }, 100);
+    }
     
 });
