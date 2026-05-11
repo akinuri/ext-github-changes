@@ -58,11 +58,12 @@ window.addEventListener("load", function () {
             return;
         }
         
-        chrome.tabs.executeScript(activeTab.id, {
-            file: "content.js",
-        }, function (result) {
-            if (chrome.extension.lastError) {
-                handleError(chrome.extension.lastError.message);
+        chrome.scripting.executeScript({
+            target: { tabId: activeTab.id },
+            files: ["content.js"],
+        }, function () {
+            if (chrome.runtime.lastError) {
+                handleError(chrome.runtime.lastError.message);
             }
         });
         
