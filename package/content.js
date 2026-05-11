@@ -1,13 +1,9 @@
 function foldFiles() {
     document.querySelectorAll(
-        "#files .file-info > button"
-    ).forEach(button => {
-        let fileEl = button.closest(".file");
-        if (fileEl) {
-            if (fileEl.classList.contains("Details--on")) {
-                button.click();
-            }
-        }
+        "[class*=DiffFileHeader-module__diff-file-header]"
+    ).forEach(header => {
+        let button = header.querySelector("button");
+        button?.click();
     });
 }
 
