@@ -1,14 +1,14 @@
-let alertEl   = null;
-let isError   = false;
+let alertEl = null;
+let isError = false;
 let activeTab = null;
-let isPull    = false;
-let isCommit  = false;
+let isPull = false;
+let isCommit = false;
 
 let buttons = {
-    fold   : null,
-    sort   : null,
-    mark   : null,
-    unmark : null,
+    fold: null,
+    sort: null,
+    mark: null,
+    unmark: null,
 };
 
 function handleError(error) {
@@ -29,69 +29,68 @@ function sendMessage(message) {
 // https://github.com/XXX/XXX/commit/XXX
 
 let patterns = {
-    pullChanges : /^https:\/\/(?:www\.)?github.com\/[\w-]+\/[\w-]+\/pull\/\d+\/changes(?:\/)?/,
-    pullCommit  : /^https:\/\/(?:www\.)?github.com\/[\w-]+\/[\w-]+\/pull\/\d+\/changes\/\w+/,
-    commit      : /^https:\/\/(?:www\.)?github.com\/[\w-]+\/[\w-]+\/commit\/\w+/,
+    pullChanges: /^https:\/\/(?:www\.)?github.com\/[\w-]+\/[\w-]+\/pull\/\d+\/changes(?:\/)?/,
+    pullCommit: /^https:\/\/(?:www\.)?github.com\/[\w-]+\/[\w-]+\/pull\/\d+\/changes\/\w+/,
+    commit: /^https:\/\/(?:www\.)?github.com\/[\w-]+\/[\w-]+\/commit\/\w+/,
 };
 
 window.addEventListener("load", function () {
-    
     alertEl = document.querySelector("p.alert");
-    
-    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         activeTab = tabs[0];
         someCode(activeTab);
     });
-    
+
     function someCode(activeTab) {
-        
         if (!activeTab) {
             return;
         }
-        
+
         isPull = patterns.pullChanges.test(activeTab.url);
         if (!isPull) {
             isCommit = patterns.pullCommit.test(activeTab.url) || patterns.commit.test(activeTab.url);
         }
-        
+
         if (!isPull && !isCommit) {
             handleError("Invalid target page/url.");
             return;
         }
-        
-        chrome.scripting.executeScript({
-            target: { tabId: activeTab.id },
-            files: ["content.js"],
-        }, function () {
-            if (chrome.runtime.lastError) {
-                handleError(chrome.runtime.lastError.message);
-            }
-        });
-        
+
+        chrome.scripting.executeScript(
+            {
+                target: { tabId: activeTab.id },
+                files: ["content.js"],
+            },
+            function () {
+                if (chrome.runtime.lastError) {
+                    handleError(chrome.runtime.lastError.message);
+                }
+            },
+        );
+
         if (isError) {
             return;
         }
-        
-        buttons.fold   = document.querySelector("button#fold");
-        buttons.sort   = document.querySelector("button#sort");
-        buttons.mark   = document.querySelector("button#mark");
+
+        buttons.fold = document.querySelector("button#fold");
+        buttons.sort = document.querySelector("button#sort");
+        buttons.mark = document.querySelector("button#mark");
         buttons.unmark = document.querySelector("button#unmark");
-        
+
         if (isCommit) {
             buttons.mark.classList.add("disabled");
             buttons.unmark.classList.add("disabled");
         }
-        
-        [buttons.fold, buttons.sort].forEach(button => {
+
+        [buttons.fold, buttons.sort].forEach((button) => {
             button.addEventListener("click", () => sendMessage(button.id));
         });
-        
+
         if (isPull) {
-            [buttons.mark, buttons.unmark].forEach(button => {
+            [buttons.mark, buttons.unmark].forEach((button) => {
                 button.addEventListener("click", () => sendMessage(button.id));
             });
         }
-        
     }
-    
 });

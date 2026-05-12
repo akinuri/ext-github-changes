@@ -16,7 +16,7 @@ body {
     min-height: 140px;
     background-color: hsl(0, 0%, 90%);
     line-height: 1.2;
-    color: rgba(0,0,0,0.8);
+    color: rgba(0, 0, 0, 0.8);
 }
 #container {
     font-size: 0.8em;

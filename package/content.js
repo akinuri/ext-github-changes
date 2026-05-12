@@ -1,7 +1,5 @@
 function foldFiles() {
-    document.querySelectorAll(
-        "[class*=DiffFileHeader-module__diff-file-header]"
-    ).forEach(header => {
+    document.querySelectorAll("[class*=DiffFileHeader-module__diff-file-header]").forEach((header) => {
         let button = header.querySelector("button");
         button?.click();
     });
@@ -24,12 +22,14 @@ function getFileChangeCount(fileEl) {
 function normalizeFilesLists() {
     let fileLists = document.querySelectorAll(".js-diff-progressive-container");
     if (fileLists.length > 1) {
-        Array.from(fileLists).slice(1).forEach(list => {
-            Array.from(list.children).forEach(diffEl => {
-                fileLists[0].append(diffEl);
+        Array.from(fileLists)
+            .slice(1)
+            .forEach((list) => {
+                Array.from(list.children).forEach((diffEl) => {
+                    fileLists[0].append(diffEl);
+                });
+                list.remove();
             });
-            list.remove();
-        });
     }
 }
 
@@ -38,18 +38,16 @@ function sortFiles() {
     let fileList = document.querySelector(".js-diff-progressive-container");
     let files = Array.from(fileList.children);
     // files.forEach(file => {
-        // console.log(file, file.innerText, getFileChangeCount(file));
+    // console.log(file, file.innerText, getFileChangeCount(file));
     // });
     files.sort((a, b) => {
         return getFileChangeCount(a) - getFileChangeCount(b);
     });
-    files.forEach(file => fileList.append(file));
+    files.forEach((file) => fileList.append(file));
 }
 
 function markFiles() {
-    document.querySelectorAll(
-        "#files input[type=checkbox].js-reviewed-checkbox"
-    ).forEach(cb => {
+    document.querySelectorAll("#files input[type=checkbox].js-reviewed-checkbox").forEach((cb) => {
         if (!cb.checked) {
             cb.click();
         }
@@ -57,9 +55,7 @@ function markFiles() {
 }
 
 function unmarkFiles() {
-    document.querySelectorAll(
-        "#files input[type=checkbox].js-reviewed-checkbox"
-    ).forEach(cb => {
+    document.querySelectorAll("#files input[type=checkbox].js-reviewed-checkbox").forEach((cb) => {
         if (cb.checked) {
             cb.click();
         }
@@ -68,17 +64,23 @@ function unmarkFiles() {
 
 // console.log("GitHub Diff extension script is executed.");
 
-chrome.runtime.onMessage?.addListener(
-    function (request, sender, sendResponse) {
-        let allowedMessages = ["unmark", "mark", "fold", "sort"];
-        if (!allowedMessages.includes(request)) {
-            return;
-        }
-        switch (request) {
-            case "fold"   : foldFiles();   break;
-            case "sort"   : sortFiles();   break;
-            case "mark"   : markFiles();   break;
-            case "unmark" : unmarkFiles(); break;
-        }
+chrome.runtime.onMessage?.addListener(function (request, sender, sendResponse) {
+    let allowedMessages = ["unmark", "mark", "fold", "sort"];
+    if (!allowedMessages.includes(request)) {
+        return;
     }
-);
+    switch (request) {
+        case "fold":
+            foldFiles();
+            break;
+        case "sort":
+            sortFiles();
+            break;
+        case "mark":
+            markFiles();
+            break;
+        case "unmark":
+            unmarkFiles();
+            break;
+    }
+});
