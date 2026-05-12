@@ -1,3 +1,103 @@
+// #region ==================== QSA
+
+function qs(...selectors) {
+    if (!selectors.length) {
+        return null;
+    }
+    let scopes = [document];
+    if (typeof selectors[0] !== "string") {
+        let customScopes = normalizeScopes(selectors[0]);
+        if (customScopes.length) {
+            scopes = customScopes;
+            selectors = selectors.slice(1);
+        }
+    }
+    for (let selectorToken of selectors) {
+        if (typeof selectorToken !== "string" || !selectorToken.trim()) {
+            continue;
+        }
+        let selector = selectorToken.trim();
+        let nextScopes = [];
+        scopes.forEach((scope) => {
+            let match = scope.querySelector(selector);
+            if (match) {
+                nextScopes.push(match);
+            }
+        });
+        scopes = nextScopes;
+        if (!scopes.length) {
+            return null;
+        }
+    }
+    return scopes[0] || null;
+}
+
+function qsa(...selectors) {
+    if (!selectors.length) {
+        return [];
+    }
+    let scopes = [document];
+    if (typeof selectors[0] !== "string") {
+        let customScopes = normalizeScopes(selectors[0]);
+        if (customScopes.length) {
+            scopes = customScopes;
+            selectors = selectors.slice(1);
+        }
+    }
+    selectors.forEach((selectorToken) => {
+        if (typeof selectorToken !== "string" || !selectorToken.trim()) {
+            return;
+        }
+        let { selector, nthIndex } = parseSelectorToken(selectorToken.trim());
+        if (!selector) {
+            return;
+        }
+        let nextScopes = [];
+        scopes.forEach((scope) => {
+            let matches = Array.from(scope.querySelectorAll(selector));
+            if (nthIndex === null) {
+                nextScopes.push(...matches);
+                return;
+            }
+            if (matches[nthIndex]) {
+                nextScopes.push(matches[nthIndex]);
+            }
+        });
+        scopes = nextScopes;
+    });
+    return scopes;
+}
+
+function parseSelectorToken(selector) {
+    let match = selector.match(/^(.*):nth-of\((\d+)\)$/);
+    if (!match) {
+        return {
+            selector: selector,
+            nthIndex: null,
+        };
+    }
+    return {
+        selector: match[1].trim(),
+        nthIndex: parseInt(match[2], 10),
+    };
+}
+
+function isScope(value) {
+    return value instanceof Element || value instanceof Document || value instanceof DocumentFragment;
+}
+
+function normalizeScopes(value) {
+    if (isScope(value)) {
+        return [value];
+    }
+    if (Array.isArray(value) || value instanceof NodeList || value instanceof HTMLCollection) {
+        return Array.from(value).filter(isScope);
+    }
+    return [];
+}
+
+// #endregion
+
 function foldFiles() {
     document.querySelectorAll("[class*=DiffFileHeader-module__diff-file-header]").forEach((header) => {
         let button = header.querySelector("button");
