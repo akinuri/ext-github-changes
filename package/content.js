@@ -88,17 +88,16 @@ function normalizeSelectorTokens(selectors) {
 }
 
 function parseSelectorToken(selector) {
-    let match = selector.match(/^(.*):nth-of\((\d+)\)$/);
-    if (!match) {
-        return {
-            selector: selector,
-            nthIndex: null,
-        };
-    }
-    return {
-        selector: match[1].trim(),
-        nthIndex: parseInt(match[2], 10),
+    let result = {
+        selector: selector,
+        nthIndex: null,
     };
+    let match = selector.match(/^(.*):nth-of\((\d+)\)$/);
+    if (match) {
+        result.selector = match[1].trim();
+        result.nthIndex = parseInt(match[2], 10) - 1;
+    }
+    return result;
 }
 
 // #endregion
