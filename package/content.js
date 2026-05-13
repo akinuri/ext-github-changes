@@ -1,7 +1,7 @@
 // #region ==================== QS
 
 /** Query Selector Helpers */
-let qsh = (() => {
+qsh = (() => {
     function isScope(value) {
         return value instanceof Element || value instanceof Document || value instanceof DocumentFragment;
     }
@@ -112,7 +112,7 @@ function qsa(...selectors) {
 
 // #endregion
 
-let FILE_EL_SELECTOR = "[class*=PullRequestDiffsList-module__diffEntry__]";
+FILE_EL_SELECTOR = "[class*=PullRequestDiffsList-module__diffEntry__]";
 
 function getFileFromChild(childEl) {
     return childEl.closest(FILE_EL_SELECTOR);
