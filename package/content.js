@@ -153,9 +153,9 @@ function getFiles() {
 }
 
 function foldFiles() {
-    document.querySelectorAll("[class*=DiffFileHeader-module__diff-file-header]").forEach((header) => {
-        let button = header.querySelector("button");
-        button?.click();
+    let files = getFiles();
+    files.forEach((file) => {
+        file.collapseToggle?.click();
     });
 }
 
