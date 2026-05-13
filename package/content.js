@@ -63,30 +63,6 @@ function qsa(...selectors) {
     return scopes;
 }
 
-function parseSelectorToken(selector) {
-    let match = selector.match(/^(.*):nth-of\((\d+)\)$/);
-    if (!match) {
-        return {
-            selector: selector,
-            nthIndex: null,
-        };
-    }
-    return {
-        selector: match[1].trim(),
-        nthIndex: parseInt(match[2], 10),
-    };
-}
-
-function normalizeSelectorTokens(selectors) {
-    return selectors
-        .filter((selectorToken) => {
-            return typeof selectorToken === "string" && selectorToken.trim().length > 0;
-        })
-        .map((selectorToken) => {
-            return selectorToken.trim();
-        });
-}
-
 function isScope(value) {
     return value instanceof Element || value instanceof Document || value instanceof DocumentFragment;
 }
@@ -99,6 +75,30 @@ function normalizeScopes(value) {
         return Array.from(value).filter(isScope);
     }
     return [];
+}
+
+function normalizeSelectorTokens(selectors) {
+    return selectors
+        .filter((selectorToken) => {
+            return typeof selectorToken === "string" && selectorToken.trim().length > 0;
+        })
+        .map((selectorToken) => {
+            return selectorToken.trim();
+        });
+}
+
+function parseSelectorToken(selector) {
+    let match = selector.match(/^(.*):nth-of\((\d+)\)$/);
+    if (!match) {
+        return {
+            selector: selector,
+            nthIndex: null,
+        };
+    }
+    return {
+        selector: match[1].trim(),
+        nthIndex: parseInt(match[2], 10),
+    };
 }
 
 // #endregion
