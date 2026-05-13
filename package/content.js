@@ -1,4 +1,51 @@
-// #region ==================== QSA
+// #region ==================== QS
+
+/** Query Selector Helpers */
+let qsh = (() => {
+    function isScope(value) {
+        return value instanceof Element || value instanceof Document || value instanceof DocumentFragment;
+    }
+
+    function normalizeScopes(value) {
+        if (isScope(value)) {
+            return [value];
+        }
+        if (Array.isArray(value) || value instanceof NodeList || value instanceof HTMLCollection) {
+            return Array.from(value).filter(isScope);
+        }
+        return [];
+    }
+
+    function normalizeSelectorTokens(selectors) {
+        return selectors
+            .filter((selectorToken) => {
+                return typeof selectorToken === "string" && selectorToken.trim().length > 0;
+            })
+            .map((selectorToken) => {
+                return selectorToken.trim();
+            });
+    }
+
+    function parseSelectorToken(selector) {
+        let result = {
+            selector: selector,
+            nthIndex: null,
+        };
+        let match = selector.match(/^(.*):nth-of\((\d+)\)$/);
+        if (match) {
+            result.selector = match[1].trim();
+            result.nthIndex = parseInt(match[2], 10);
+        }
+        return result;
+    }
+
+    return {
+        isScope,
+        normalizeScopes,
+        normalizeSelectorTokens,
+        parseSelectorToken,
+    };
+})();
 
 function qs(...selectors) {
     if (!selectors.length) {
@@ -6,13 +53,13 @@ function qs(...selectors) {
     }
     let scopes = [document];
     if (typeof selectors[0] !== "string") {
-        let customScopes = normalizeScopes(selectors[0]);
+        let customScopes = qsh.normalizeScopes(selectors[0]);
         if (customScopes.length) {
             scopes = customScopes;
             selectors = selectors.slice(1);
         }
     }
-    selectors = normalizeSelectorTokens(selectors);
+    selectors = qsh.normalizeSelectorTokens(selectors);
     for (let selector of selectors) {
         let nextScopes = [];
         scopes.forEach((scope) => {
@@ -35,15 +82,15 @@ function qsa(...selectors) {
     }
     let scopes = [document];
     if (typeof selectors[0] !== "string") {
-        let customScopes = normalizeScopes(selectors[0]);
+        let customScopes = qsh.normalizeScopes(selectors[0]);
         if (customScopes.length) {
             scopes = customScopes;
             selectors = selectors.slice(1);
         }
     }
-    selectors = normalizeSelectorTokens(selectors);
+    selectors = qsh.normalizeSelectorTokens(selectors);
     selectors.forEach((selectorToken) => {
-        let { selector, nthIndex } = parseSelectorToken(selectorToken);
+        let { selector, nthIndex } = qsh.parseSelectorToken(selectorToken);
         if (!selector) {
             return;
         }
@@ -61,43 +108,6 @@ function qsa(...selectors) {
         scopes = nextScopes;
     });
     return scopes;
-}
-
-function isScope(value) {
-    return value instanceof Element || value instanceof Document || value instanceof DocumentFragment;
-}
-
-function normalizeScopes(value) {
-    if (isScope(value)) {
-        return [value];
-    }
-    if (Array.isArray(value) || value instanceof NodeList || value instanceof HTMLCollection) {
-        return Array.from(value).filter(isScope);
-    }
-    return [];
-}
-
-function normalizeSelectorTokens(selectors) {
-    return selectors
-        .filter((selectorToken) => {
-            return typeof selectorToken === "string" && selectorToken.trim().length > 0;
-        })
-        .map((selectorToken) => {
-            return selectorToken.trim();
-        });
-}
-
-function parseSelectorToken(selector) {
-    let result = {
-        selector: selector,
-        nthIndex: null,
-    };
-    let match = selector.match(/^(.*):nth-of\((\d+)\)$/);
-    if (match) {
-        result.selector = match[1].trim();
-        result.nthIndex = parseInt(match[2], 10) - 1;
-    }
-    return result;
 }
 
 // #endregion
