@@ -23,7 +23,7 @@ function qs(...selectors) {
         });
         scopes = nextScopes;
         if (!scopes.length) {
-            return null;
+            break;
         }
     }
     return scopes[0] || null;
