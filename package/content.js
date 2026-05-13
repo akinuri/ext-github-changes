@@ -127,7 +127,7 @@ function getFileStats(fileEl) {
         markViewedToggle: qs(fileEl, "[aria-label='Not Viewed']") || qs(fileEl, "[aria-label='Viewed']"),
         isViewed: null,
         diff: {
-            el: qsa(fileEl, "div[class*=DiffFileHeader-module__hide-on-mobile__]")?.[0] || null,
+            el: qs(fileEl, "div[class*=DiffFileHeader-module__hide-on-mobile__]"),
             add: null,
             del: null,
         },
