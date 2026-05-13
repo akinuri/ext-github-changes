@@ -12,11 +12,8 @@ function qs(...selectors) {
             selectors = selectors.slice(1);
         }
     }
-    for (let selectorToken of selectors) {
-        if (typeof selectorToken !== "string" || !selectorToken.trim()) {
-            continue;
-        }
-        let selector = selectorToken.trim();
+    selectors = normalizeSelectorTokens(selectors);
+    for (let selector of selectors) {
         let nextScopes = [];
         scopes.forEach((scope) => {
             let match = scope.querySelector(selector);
@@ -44,11 +41,9 @@ function qsa(...selectors) {
             selectors = selectors.slice(1);
         }
     }
+    selectors = normalizeSelectorTokens(selectors);
     selectors.forEach((selectorToken) => {
-        if (typeof selectorToken !== "string" || !selectorToken.trim()) {
-            return;
-        }
-        let { selector, nthIndex } = parseSelectorToken(selectorToken.trim());
+        let { selector, nthIndex } = parseSelectorToken(selectorToken);
         if (!selector) {
             return;
         }
@@ -80,6 +75,16 @@ function parseSelectorToken(selector) {
         selector: match[1].trim(),
         nthIndex: parseInt(match[2], 10),
     };
+}
+
+function normalizeSelectorTokens(selectors) {
+    return selectors
+        .filter((selectorToken) => {
+            return typeof selectorToken === "string" && selectorToken.trim().length > 0;
+        })
+        .map((selectorToken) => {
+            return selectorToken.trim();
+        });
 }
 
 function isScope(value) {
