@@ -154,8 +154,16 @@ function getFiles() {
 
 function foldFiles() {
     let files = getFiles();
+    let collapsedCount = files.filter((file) => file.isCollapsed === true).length;
+    let expandedCount = files.filter((file) => file.isCollapsed === false).length;
+    let targetCollapsed = collapsedCount <= expandedCount;
     files.forEach((file) => {
-        file.collapseToggle?.click();
+        if (!file.collapseToggle || file.isCollapsed === null) {
+            return;
+        }
+        if (file.isCollapsed !== targetCollapsed) {
+            file.collapseToggle.click();
+        }
     });
 }
 
