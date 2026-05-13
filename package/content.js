@@ -112,6 +112,46 @@ function qsa(...selectors) {
 
 // #endregion
 
+let FILE_EL_SELECTOR = "[class*=PullRequestDiffsList-module__diffEntry__]";
+
+function getFileFromChild(childEl) {
+    return childEl.closest(FILE_EL_SELECTOR);
+}
+
+function getFileStats(fileEl) {
+    let result = {
+        container: fileEl,
+        collapseToggle: qs(fileEl, "[class*=DiffFileHeader-module__diff-file-header]", "button"),
+        collapseToggleTooltip: null,
+        isCollapsed: null,
+        markViewedToggle: qs(fileEl, "[aria-label='Not Viewed']") || qs(fileEl, "[aria-label='Viewed']"),
+        isViewed: null,
+        diff: {
+            el: qsa(fileEl, "div[class*=DiffFileHeader-module__hide-on-mobile__]")?.[0] || null,
+            add: null,
+            del: null,
+        },
+    };
+    result.collapseToggleTooltip = result.collapseToggle?.nextElementSibling;
+    result.isCollapsed = result.collapseToggleTooltip?.innerText.trim() === "Expand file";
+    result.isViewed = result.markViewedToggle?.getAttribute("aria-label") === "Viewed";
+    if (result.diff.el) {
+        let diffText = result.diff.el.innerText.trim();
+        result.diff.add = parseInt(diffText.match(/(\d+)\s*additions?/)?.[1] || "0", 10);
+        result.diff.del = parseInt(diffText.match(/(\d+)\s*deletions?/)?.[1] || "0", 10);
+    }
+    return result;
+}
+
+function getFiles() {
+    let result = [];
+    let fileEls = document.querySelectorAll(FILE_EL_SELECTOR);
+    fileEls.forEach((fileEl) => {
+        result.push(getFileStats(fileEl));
+    });
+    return result;
+}
+
 function foldFiles() {
     document.querySelectorAll("[class*=DiffFileHeader-module__diff-file-header]").forEach((header) => {
         let button = header.querySelector("button");
