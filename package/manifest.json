@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
     "name": "GitHub Changes",
-    "description": "Makes viewing file changes a little easier.",
-    "version": "0.5.1",
+    "description": "Makes viewing PR changes easier",
+    "version": "0.5.2",
     "action": {
         "default_title": "View PR changes better",
         "default_popup": "popup.html",
