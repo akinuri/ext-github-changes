@@ -209,17 +209,19 @@ function sortFiles() {
 }
 
 function markFiles() {
-    document.querySelectorAll("#files input[type=checkbox].js-reviewed-checkbox").forEach((cb) => {
-        if (!cb.checked) {
-            cb.click();
+    let files = getFiles();
+    files.forEach((file) => {
+        if (file.markViewedToggle && !file.isViewed) {
+            file.markViewedToggle.click();
         }
     });
 }
 
 function unmarkFiles() {
-    document.querySelectorAll("#files input[type=checkbox].js-reviewed-checkbox").forEach((cb) => {
-        if (cb.checked) {
-            cb.click();
+    let files = getFiles();
+    files.forEach((file) => {
+        if (file.markViewedToggle && file.isViewed) {
+            file.markViewedToggle.click();
         }
     });
 }
