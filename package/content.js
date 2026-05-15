@@ -200,16 +200,16 @@ function normalizeFilesLists() {
 }
 
 function sortFiles() {
-    normalizeFilesLists();
-    let fileList = document.querySelector(".js-diff-progressive-container");
-    let files = Array.from(fileList.children);
-    // files.forEach(file => {
-    // console.log(file, file.innerText, getFileChangeCount(file));
-    // });
+    let files = getFiles();
+    let fileList = files[0].container.parentElement;
+    let placeholderEl = fileList.querySelectorAll(":scope > svg");
+    placeholderEl.forEach((el) => el.remove());
     files.sort((a, b) => {
-        return getFileChangeCount(a) - getFileChangeCount(b);
+        let aCount = a.diff.add + a.diff.del;
+        let bCount = b.diff.add + b.diff.del;
+        return aCount - bCount;
     });
-    files.forEach((file) => fileList.append(file));
+    files.forEach((file) => fileList.append(file.container));
 }
 
 function markFiles() {
