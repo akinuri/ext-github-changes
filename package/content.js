@@ -112,6 +112,8 @@ function qsa(...selectors) {
 
 // #endregion
 
+// #region ==================== FILES
+
 FILE_EL_SELECTOR = "[class*=PullRequestDiffsList-module__diffEntry__]";
 
 function getFileFromChild(childEl) {
@@ -151,6 +153,8 @@ function getFiles() {
     });
     return result;
 }
+
+// #endregion
 
 function foldFiles() {
     let files = getFiles();
