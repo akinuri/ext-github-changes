@@ -171,34 +171,6 @@ function foldFiles() {
     });
 }
 
-function getFileChangeCount(fileEl) {
-    let count = fileEl.querySelector(".diffstat").innerText.trim();
-    count = count.replace(",", "");
-    count = parseInt(count);
-    if (isNaN(count)) {
-        let style = fileEl.getAttribute("style");
-        let rowCount = fileEl.getAttribute("style")?.match(/--file-row-count: (\d+)/)[1] ?? null;
-        if (rowCount) {
-            count = rowCount - 1;
-        }
-    }
-    return count || 0;
-}
-
-function normalizeFilesLists() {
-    let fileLists = document.querySelectorAll(".js-diff-progressive-container");
-    if (fileLists.length > 1) {
-        Array.from(fileLists)
-            .slice(1)
-            .forEach((list) => {
-                Array.from(list.children).forEach((diffEl) => {
-                    fileLists[0].append(diffEl);
-                });
-                list.remove();
-            });
-    }
-}
-
 function sortFiles() {
     let files = getFiles();
     let fileList = files[0].container.parentElement;
