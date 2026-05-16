@@ -140,6 +140,7 @@ function getFileFromChild(childEl) {
 function getFileStats(fileEl) {
     let result = {
         container: fileEl,
+        id: fileEl.dataset.id || generateRandomId(),
         collapseToggle: qs(fileEl, "[class*=DiffFileHeader-module__diff-file-header]", "button"),
         collapseToggleTooltip: null,
         isCollapsed: null,
@@ -151,6 +152,7 @@ function getFileStats(fileEl) {
             del: null,
         },
     };
+    result.container.dataset.id = result.id;
     result.collapseToggleTooltip = result.collapseToggle?.nextElementSibling;
     result.isCollapsed = result.collapseToggleTooltip?.innerText.trim() === "Expand file";
     result.isViewed = result.markViewedToggle?.getAttribute("aria-label") === "Viewed";
