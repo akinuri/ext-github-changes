@@ -114,6 +114,13 @@ function qsa(...selectors) {
 
 // #region ==================== UTILS
 
+function getIndexOfElement(el) {
+    if (!el || !el.parentElement) {
+        return null;
+    }
+    return Array.from(el.parentElement.children).indexOf(el);
+}
+
 function generateRandomId(length = 4) {
     let id = Math.random()
         .toString(36)
