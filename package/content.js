@@ -147,6 +147,7 @@ function getFileFromChild(childEl) {
 function getFileStats(fileEl) {
     let result = {
         container: fileEl,
+        index: fileEl.dataset.index || getIndexOfElement(fileEl),
         id: fileEl.dataset.id || generateRandomId(),
         collapseToggle: qs(fileEl, "[class*=DiffFileHeader-module__diff-file-header]", "button"),
         collapseToggleTooltip: null,
@@ -159,6 +160,7 @@ function getFileStats(fileEl) {
             del: null,
         },
     };
+    result.container.dataset.index = result.index;
     result.container.dataset.id = result.id;
     result.collapseToggleTooltip = result.collapseToggle?.nextElementSibling;
     result.isCollapsed = result.collapseToggleTooltip?.innerText.trim() === "Expand file";
