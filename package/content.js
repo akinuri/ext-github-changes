@@ -138,7 +138,7 @@ function getFileStats(fileEl) {
     result.isCollapsed = result.collapseToggleTooltip?.innerText.trim() === "Expand file";
     result.isViewed = result.markViewedToggle?.getAttribute("aria-label") === "Viewed";
     if (result.diff.el) {
-        let diffText = result.diff.el.innerText.trim();
+        let diffText = result.diff.el.textContent.trim();
         result.diff.add = parseInt(diffText.match(/(\d+)\s*additions?/)?.[1] || "0", 10);
         result.diff.del = parseInt(diffText.match(/(\d+)\s*deletions?/)?.[1] || "0", 10);
     }
