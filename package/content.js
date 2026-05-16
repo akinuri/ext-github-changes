@@ -204,23 +204,27 @@ function unmarkFiles() {
 
 // console.log("GitHub Diff extension script is executed.");
 
-chrome.runtime.onMessage?.addListener(function (request, sender, sendResponse) {
-    let allowedMessages = ["unmark", "mark", "fold", "sort"];
-    if (!allowedMessages.includes(request)) {
-        return;
-    }
-    switch (request) {
-        case "fold":
-            foldFiles();
-            break;
-        case "sort":
-            sortFiles();
-            break;
-        case "mark":
-            markFiles();
-            break;
-        case "unmark":
-            unmarkFiles();
-            break;
-    }
-});
+isExListenerAdded = window.isExListenerAdded || false;
+if (!isExListenerAdded) {
+    chrome.runtime.onMessage?.addListener(function (request, sender, sendResponse) {
+        let allowedMessages = ["unmark", "mark", "fold", "sort"];
+        if (!allowedMessages.includes(request)) {
+            return;
+        }
+        switch (request) {
+            case "fold":
+                foldFiles();
+                break;
+            case "sort":
+                sortFiles();
+                break;
+            case "mark":
+                markFiles();
+                break;
+            case "unmark":
+                unmarkFiles();
+                break;
+        }
+    });
+}
+window.isExListenerAdded = true;
