@@ -187,14 +187,17 @@ function getFiles() {
 
 function foldFiles() {
     let files = getFiles();
-    let collapsedCount = files.filter((file) => file.isCollapsed === true).length;
-    let expandedCount = files.filter((file) => file.isCollapsed === false).length;
-    let targetCollapsed = collapsedCount <= expandedCount;
     files.forEach((file) => {
-        if (!file.collapseToggle || file.isCollapsed === null) {
-            return;
+        if (!file.isCollapsed) {
+            file.collapseToggle.click();
         }
-        if (file.isCollapsed !== targetCollapsed) {
+    });
+}
+
+function unfoldFiles() {
+    let files = getFiles();
+    files.forEach((file) => {
+        if (file.isCollapsed) {
             file.collapseToggle.click();
         }
     });
@@ -239,13 +242,16 @@ function unmarkFiles() {
 isExListenerAdded = window.isExListenerAdded || false;
 if (!isExListenerAdded) {
     chrome.runtime.onMessage?.addListener(function (request, sender, sendResponse) {
-        let allowedMessages = ["unmark", "mark", "fold", "sort"];
+        let allowedMessages = ["unmark", "mark", "fold", "unfold", "sort"];
         if (!allowedMessages.includes(request)) {
             return;
         }
         switch (request) {
             case "fold":
                 foldFiles();
+                break;
+            case "unfold":
+                unfoldFiles();
                 break;
             case "sort":
                 sortFiles();
