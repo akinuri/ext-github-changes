@@ -1,0 +1,12 @@
+{
+    "name": "ext-github-changes",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "build:css": "tailwindcss -i ./tailwind.css -o ./package/tailwind.css",
+        "watch:css": "tailwindcss -i ./tailwind.css -o ./package/tailwind.css --watch"
+    },
+    "devDependencies": {
+        "tailwindcss": "^3.4.0"
+    }
+}
