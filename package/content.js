@@ -112,6 +112,23 @@ function qsa(...selectors) {
 
 // #endregion
 
+// #region ==================== UTILS
+
+function generateRandomId(length = 4) {
+    let id = Math.random()
+        .toString(36)
+        .substring(2, 2 + length);
+    if (generateRandomId.ids.has(id)) {
+        id = generateRandomId(length);
+    } else {
+        generateRandomId.ids.add(id);
+    }
+    return id;
+}
+generateRandomId.ids = new Set();
+
+// #endregion
+
 // #region ==================== FILES
 
 FILE_EL_SELECTOR = "[class*=PullRequestDiffsList-module__diffEntry__]";
