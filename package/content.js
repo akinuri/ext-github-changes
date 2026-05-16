@@ -193,12 +193,17 @@ function foldFiles() {
 
 function sortFiles() {
     let files = getFiles();
+    let currentOrder = files.map((file) => file.id).join(", ");
     let fileList = files[0].container.parentElement;
     let placeholderEl = fileList.querySelectorAll(":scope > svg");
     placeholderEl.forEach((el) => el.remove());
     files.sort((a, b) => {
         return a.diff.total - b.diff.total;
     });
+    let newOrder = files.map((file) => file.id).join(", ");
+    if (currentOrder === newOrder) {
+        return;
+    }
     files.forEach((file) => fileList.append(file.container));
 }
 
