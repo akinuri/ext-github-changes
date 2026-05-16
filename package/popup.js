@@ -13,8 +13,8 @@ let buttons = {
 
 function handleError(error) {
     isError = error;
-    alertEl.innerHTML = "<b>Error</b>: " + error;
-    alertEl.hidden = false;
+    alertEl.textContent = "Error: " + error;
+    alertEl.classList.remove("hidden");
     alertEl.nextElementSibling.classList.add("disabled");
 }
 
@@ -35,7 +35,7 @@ let patterns = {
 };
 
 window.addEventListener("load", function () {
-    alertEl = document.querySelector("p.alert");
+    alertEl = document.querySelector("#alert");
 
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         activeTab = tabs[0];

@@ -1,7 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="bg-white">
 
 <head>
+    <link
+        rel="stylesheet"
+        href="tailwind.css"
+    />
     <link
         rel="stylesheet"
         href="styles.css"
@@ -9,20 +13,20 @@
     <script src="popup.js"></script>
 </head>
 
-<body>
+<body class="w-[15rem] min-h-[140px] bg-gray-100 p-4 text-sm text-gray-800 font-sans">
 
     <div id="container">
 
         <p
-            class="alert"
-            hidden
+            class="mb-4 bg-yellow-100 px-2 py-1 rounded border border-gray-300 text-xs hidden"
+            id="alert"
         >Lorem ipsum</p>
 
-        <div id="buttons">
-            <button id="fold">Fold/Unfold all files</button>
-            <button id="sort">Sort files by change (ASC)</button>
-            <button id="mark">Mark all files "Viewed"</button>
-            <button id="unmark">Unmark all files "Viewed"</button>
+        <div id="buttons" class="flex flex-col gap-4">
+            <button id="fold" class="px-2 py-1 bg-white border border-gray-300 rounded hover:bg-slate-100 active:bg-slate-200 transition-colors">Fold/Unfold all files</button>
+            <button id="sort" class="px-2 py-1 bg-white border border-gray-300 rounded hover:bg-slate-100 active:bg-slate-200 transition-colors">Sort files by change (ASC)</button>
+            <button id="mark" class="px-2 py-1 bg-white border border-gray-300 rounded hover:bg-slate-100 active:bg-slate-200 transition-colors">Mark all files "Viewed"</button>
+            <button id="unmark" class="px-2 py-1 bg-white border border-gray-300 rounded hover:bg-slate-100 active:bg-slate-200 transition-colors">Unmark all files "Viewed"</button>
         </div>
 
     </div>
