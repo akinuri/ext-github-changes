@@ -141,6 +141,7 @@ function getFileStats(fileEl) {
         let diffText = result.diff.el.textContent.trim();
         result.diff.add = parseInt(diffText.match(/(\d+)\s*additions?/)?.[1] || "0", 10);
         result.diff.del = parseInt(diffText.match(/(\d+)\s*deletions?/)?.[1] || "0", 10);
+        result.diff.total = result.diff.add + result.diff.del;
     }
     return result;
 }
@@ -177,9 +178,7 @@ function sortFiles() {
     let placeholderEl = fileList.querySelectorAll(":scope > svg");
     placeholderEl.forEach((el) => el.remove());
     files.sort((a, b) => {
-        let aCount = a.diff.add + a.diff.del;
-        let bCount = b.diff.add + b.diff.del;
-        return aCount - bCount;
+        return a.diff.total - b.diff.total;
     });
     files.forEach((file) => fileList.append(file.container));
 }
