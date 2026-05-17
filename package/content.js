@@ -219,6 +219,22 @@ function sortFilesAsc() {
     files.forEach((file) => fileList.append(file.container));
 }
 
+function sortFilesDesc() {
+    let files = getFiles();
+    let currentOrder = files.map((file) => file.id).join(", ");
+    let fileList = files[0].container.parentElement;
+    let placeholderEl = fileList.querySelectorAll(":scope > svg");
+    placeholderEl.forEach((el) => el.remove());
+    files.sort((a, b) => {
+        return b.diff.total - a.diff.total;
+    });
+    let newOrder = files.map((file) => file.id).join(", ");
+    if (currentOrder === newOrder) {
+        return;
+    }
+    files.forEach((file) => fileList.append(file.container));
+}
+
 function markFiles() {
     let files = getFiles();
     files.forEach((file) => {
@@ -242,7 +258,7 @@ function unmarkFiles() {
 isExListenerAdded = window.isExListenerAdded || false;
 if (!isExListenerAdded) {
     chrome.runtime.onMessage?.addListener(function (request, sender, sendResponse) {
-        let allowedMessages = ["unmark", "mark", "fold", "unfold", "sort-changes-asc"];
+        let allowedMessages = ["unmark", "mark", "fold", "unfold", "sort-changes-asc", "sort-changes-desc"];
         if (!allowedMessages.includes(request)) {
             return;
         }
@@ -255,6 +271,9 @@ if (!isExListenerAdded) {
                 break;
             case "sort-changes-asc":
                 sortFilesAsc();
+                break;
+            case "sort-changes-desc":
+                sortFilesDesc();
                 break;
             case "mark":
                 markFiles();
