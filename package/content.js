@@ -203,7 +203,7 @@ function unfoldFiles() {
     });
 }
 
-function sortFiles() {
+function sortFilesAsc() {
     let files = getFiles();
     let currentOrder = files.map((file) => file.id).join(", ");
     let fileList = files[0].container.parentElement;
@@ -242,7 +242,7 @@ function unmarkFiles() {
 isExListenerAdded = window.isExListenerAdded || false;
 if (!isExListenerAdded) {
     chrome.runtime.onMessage?.addListener(function (request, sender, sendResponse) {
-        let allowedMessages = ["unmark", "mark", "fold", "unfold", "sort"];
+        let allowedMessages = ["unmark", "mark", "fold", "unfold", "sort-changes-asc"];
         if (!allowedMessages.includes(request)) {
             return;
         }
@@ -253,8 +253,8 @@ if (!isExListenerAdded) {
             case "unfold":
                 unfoldFiles();
                 break;
-            case "sort":
-                sortFiles();
+            case "sort-changes-asc":
+                sortFilesAsc();
                 break;
             case "mark":
                 markFiles();
