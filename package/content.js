@@ -209,9 +209,13 @@ function sortFiles(dir = "asc") {
     let fileList = files[0].container.parentElement;
     let placeholderEl = fileList.querySelectorAll(":scope > svg");
     placeholderEl.forEach((el) => el.remove());
-    files.sort((a, b) => {
-        return (a.diff.total - b.diff.total) * (dir === "asc" ? 1 : -1);
-    });
+    if (dir === "restore") {
+        files.sort((a, b) => a.index - b.index);
+    } else {
+        files.sort((a, b) => {
+            return (a.diff.total - b.diff.total) * (dir === "asc" ? 1 : -1);
+        });
+    }
     let newOrder = files.map((file) => file.id).join(", ");
     if (currentOrder === newOrder) {
         return;
@@ -242,7 +246,15 @@ function unmarkFiles() {
 isExListenerAdded = window.isExListenerAdded || false;
 if (!isExListenerAdded) {
     chrome.runtime.onMessage?.addListener(function (request, sender, sendResponse) {
-        let allowedMessages = ["unmark", "mark", "fold", "unfold", "sort-changes-asc", "sort-changes-desc"];
+        let allowedMessages = [
+            "unmark",
+            "mark",
+            "fold",
+            "unfold",
+            "sort-changes-asc",
+            "sort-changes-desc",
+            "sort-restore",
+        ];
         if (!allowedMessages.includes(request)) {
             return;
         }
@@ -255,6 +267,9 @@ if (!isExListenerAdded) {
                 break;
             case "sort-changes-asc":
                 sortFiles();
+                break;
+            case "sort-restore":
+                sortFiles("restore");
                 break;
             case "sort-changes-desc":
                 sortFiles("desc");

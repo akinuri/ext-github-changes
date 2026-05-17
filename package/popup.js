@@ -77,6 +77,7 @@ window.addEventListener("load", function () {
         buttons.unfold = document.querySelector("button#unfold");
         buttons.sortChangesAsc = document.querySelector("button#sort-changes-asc");
         buttons.sortChangesDesc = document.querySelector("button#sort-changes-desc");
+        buttons.sortRestore = document.querySelector("button#sort-restore");
         buttons.mark = document.querySelector("button#mark");
         buttons.unmark = document.querySelector("button#unmark");
 
@@ -85,7 +86,7 @@ window.addEventListener("load", function () {
             buttons.unmark.classList.add("disabled");
         }
 
-        [buttons.fold, buttons.unfold, buttons.sortChangesAsc, buttons.sortChangesDesc].forEach((button) => {
+        [buttons.fold, buttons.unfold, buttons.sortChangesAsc, buttons.sortChangesDesc, buttons.sortRestore].forEach((button) => {
             button.addEventListener("click", () => sendMessage(button.id));
         });
 
