@@ -203,30 +203,14 @@ function unfoldFiles() {
     });
 }
 
-function sortFilesAsc() {
+function sortFiles(dir = "asc") {
     let files = getFiles();
     let currentOrder = files.map((file) => file.id).join(", ");
     let fileList = files[0].container.parentElement;
     let placeholderEl = fileList.querySelectorAll(":scope > svg");
     placeholderEl.forEach((el) => el.remove());
     files.sort((a, b) => {
-        return a.diff.total - b.diff.total;
-    });
-    let newOrder = files.map((file) => file.id).join(", ");
-    if (currentOrder === newOrder) {
-        return;
-    }
-    files.forEach((file) => fileList.append(file.container));
-}
-
-function sortFilesDesc() {
-    let files = getFiles();
-    let currentOrder = files.map((file) => file.id).join(", ");
-    let fileList = files[0].container.parentElement;
-    let placeholderEl = fileList.querySelectorAll(":scope > svg");
-    placeholderEl.forEach((el) => el.remove());
-    files.sort((a, b) => {
-        return b.diff.total - a.diff.total;
+        return (a.diff.total - b.diff.total) * (dir === "asc" ? 1 : -1);
     });
     let newOrder = files.map((file) => file.id).join(", ");
     if (currentOrder === newOrder) {
@@ -270,10 +254,10 @@ if (!isExListenerAdded) {
                 unfoldFiles();
                 break;
             case "sort-changes-asc":
-                sortFilesAsc();
+                sortFiles();
                 break;
             case "sort-changes-desc":
-                sortFilesDesc();
+                sortFiles("desc");
                 break;
             case "mark":
                 markFiles();
