@@ -163,7 +163,10 @@ function getFileStats(fileEl) {
     result.container.dataset.index = result.index;
     result.container.dataset.id = result.id;
     result.collapseToggleTooltip = result.collapseToggle?.nextElementSibling;
-    result.isCollapsed = result.collapseToggleTooltip?.innerText.trim() === "Expand file";
+    let headerEl = qs(fileEl, "[class*=diff-file-header__]");
+    result.isCollapsed = headerEl
+        ? /(^|\s)collapsed__/.test(headerEl.className)
+        : result.collapseToggleTooltip?.textContent.trim() === "Expand file";
     result.isViewed = result.markViewedToggle?.getAttribute("aria-label") === "Viewed";
     if (result.diff.el) {
         let diffText = result.diff.el.textContent.trim();
