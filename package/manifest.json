@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "GitHub Changes",
-    "description": "Makes viewing PR changes easier",
+    "description": "Makes reviewing PR and commit changes on GitHub easier.",
     "version": "0.6",
     "action": {
         "default_title": "View PR changes better",
