@@ -1,6 +1,10 @@
-# github-changes
-Helpers for viewing PR and commit changes.
+# GitHub Changes
+Chrome extension for easier reviewing of PR and commit changes on GitHub.
 
-https://chrome.google.com/webstore/detail/ngnpnhamefennhpgdbblgdmlbllkkpjc
+Works on PR changes pages (`/pull/<n>/changes[/<sha>]`) and commit pages (`/commit/<sha>`).
 
-![screenshot](screenshots/1.jpg?raw=true)
+## Credits
+- "compare" icon from [iconsdb.com](https://www.iconsdb.com/black-icons/compare-icon.html) (by icons8)
+
+## Screenshot
+![screenshot](store/screenshots/1.jpg?raw=true)
