@@ -138,7 +138,7 @@ generateRandomId.ids = new Set();
 
 // #region ==================== FILES
 
-FILE_EL_SELECTOR = "[class*=PullRequestDiffsList-module__diffEntry__]";
+FILE_EL_SELECTOR = "[class*=diffEntry__]";
 
 function getFileFromChild(childEl) {
     return childEl.closest(FILE_EL_SELECTOR);
@@ -149,13 +149,13 @@ function getFileStats(fileEl) {
         container: fileEl,
         index: fileEl.dataset.index || getIndexOfElement(fileEl),
         id: fileEl.dataset.id || generateRandomId(),
-        collapseToggle: qs(fileEl, "[class*=DiffFileHeader-module__diff-file-header]", "button"),
+        collapseToggle: qs(fileEl, "[class*=diff-file-header__]", "button"),
         collapseToggleTooltip: null,
         isCollapsed: null,
         markViewedToggle: qs(fileEl, "[aria-label='Not Viewed']") || qs(fileEl, "[aria-label='Viewed']"),
         isViewed: null,
         diff: {
-            el: qs(fileEl, "div[class*=DiffFileHeader-module__hide-on-mobile__]"),
+            el: qs(fileEl, "div[class*=diff-file-header__] div[class*=hide-on-mobile__]"),
             add: null,
             del: null,
         },
